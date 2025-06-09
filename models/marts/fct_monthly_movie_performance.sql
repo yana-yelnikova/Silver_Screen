@@ -22,8 +22,7 @@ select
     -- Metrics
     sales.tickets_sold,
     sales.revenue,
-    coalesce(costs.rental_cost, 0) as rental_cost,
-    (sales.revenue - coalesce(costs.rental_cost, 0)) as profit
+    coalesce(costs.rental_cost, 0) as rental_cost
 
 from monthly_sales as sales
 left join

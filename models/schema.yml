@@ -306,7 +306,3 @@ models:
         description: "Total cost of renting the movie for the month. Defaults to 0 if no invoice is found."
         tests:
           - not_null
-      - name: profit
-        description: "Calculated profit for the month (revenue - rental_cost)."
-        tests:
-          - not_null
