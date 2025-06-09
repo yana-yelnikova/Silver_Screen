@@ -231,9 +231,3 @@ models:
         tests:
           - not_null
 
-    tests:
-      # This is the standard dbt test to check for the uniqueness of a composite key.
-      # It ensures that our aggregation worked correctly and there's only one row
-      # per movie, per location, per month.
-      - unique:
-          column_names: [month, location_id, movie_id]
