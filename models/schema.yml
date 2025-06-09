@@ -175,3 +175,33 @@ models:
         description: "Total revenue generated from ticket sales for the movie in a given month."
         tests:
           - not_null
+  - name: stg_nj_003
+    description: "Staging model for NJ_003. Filters for ticket sales only, cleans and standardizes raw transaction data. Grain is one row per transaction."
+    columns:
+      - name: transaction_id
+        description: "The original unique identifier for each transaction."
+        tests:
+          - unique
+          - not_null
+      - name: movie_id
+        description: "Foreign key to the movie catalogue, extracted from the 'details' column."
+        tests:
+          - not_null
+      - name: month
+        description: "The first day of the month of the sale. Used for monthly grouping."
+        tests:
+          - not_null
+      - name: location_id
+        description: "The static identifier for the location, set to 'NJ_003'."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['NJ_003']
+      - name: tickets_sold
+        description: "The number of tickets sold in the transaction, from the 'amount' column."
+        tests:
+          - not_null
+      - name: revenue
+        description: "Total revenue generated from the transaction, from the 'total_value' column."
+        tests:
+          - not_null
