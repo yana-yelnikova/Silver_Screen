@@ -1,0 +1,119 @@
+version: 2
+
+sources:
+  - name: silver_screen_raw # Logical name for the source group
+    database: SILVER_SCREEN # The name of your database in Snowflake
+    schema: PUBLIC # The schema name
+    tables:
+      - name: INVOICES
+        description: "Invoices for movie rentals by Silver Screen theaters."
+        columns:
+          - name: MOVIE_ID
+            description: "Unique identifier for the movie."
+          - name: INVOICE_ID
+            description: "Original invoice identifier. Not reliable as a unique key."
+          - name: MONTH
+            description: "The month for which the invoice was issued."
+          - name: LOCATION_ID
+            description: "Identifier for the movie theater location."
+          - name: STUDIO
+            description: "The studio that produced the movie."
+          - name: Release_Date
+            description: "The release date of the movie."
+          - name: Weekly_price
+            description: "Weekly rental cost for the movie."
+          - name: Total_invoice_sum
+            description: "Total sum of the invoice."
+      - name: MOVIE_CATALOGUE
+        description: "Movie catalogue with detailed information."
+        columns:
+          - name: movie_id
+            description: "Unique identifier for the movie."
+            tests:
+              - unique
+              - not_null
+          - name: movie_title
+            description: "The title of the movie."
+          - name: release_date
+            description: "Release date."
+          - name: genre
+            description: "The genre of the movie."
+          - name: studio
+            description: "The production studio."
+          - name: budget
+            description: "The movie's production budget."
+          - name: director
+            description: "The director of the movie."
+          - name: rating
+            description: "The age rating."
+          - name: minutes
+            description: "The runtime of the movie in minutes."
+      - name: NJ_001
+        description: "Detailed transactions for ticket sales at location NJ_001."
+        columns:
+          - name: transaction_id
+            description: "Unique identifier for the transaction."
+            tests:
+              - unique
+              - not_null
+          - name: movie_id
+            description: "Identifier for the movie."
+            tests:
+              - not_null
+          - name: timestamp
+            description: "Timestamp of the transaction."
+          - name: ticket_amount
+            description: "Number of tickets in the transaction."
+          - name: price
+            description: "Price per ticket."
+          - name: transaction_total
+            description: "Total amount of the transaction."
+          - name: is_discounted
+            description: "Indicates if a discount was applied."
+          - name: is_3D
+            description: "Indicates if the movie was in 3D."
+      - name: NJ_002
+        description: "Daily aggregated sales data for location NJ_002."
+        columns:
+          - name: date
+            description: "The date for which sales are aggregated."
+          - name: movie_id
+            description: "Identifier for the movie."
+            tests:
+              - not_null
+          - name: ticket_amount
+            description: "Total number of tickets sold for the day."
+          - name: ticket_price
+            description: "Ticket price."
+          - name: total_earned
+            description: "Total revenue earned for the day."
+      - name: NJ_003
+        description: "Transactions for all product types (tickets, food) at location NJ_003."
+        columns:
+          - name: transaction_id
+            description: "Unique identifier for the transaction."
+            tests:
+              - unique
+              - not_null
+          - name: product_type
+            description: "The type of product (e.g., ticket, snack, drink)."
+            tests:
+              - not_null
+          - name: details
+            description: "Product details. For tickets, this contains the movie_id."
+          - name: amount
+            description: "Quantity of the product units."
+          - name: price
+            description: "Price per unit."
+          - name: total_value
+            description: "Total value of the transaction."
+
+models:
+  - name: stg_invoices
+    description: "Cleansed and aggregated invoice data with a unique surrogate key."
+    columns:
+      - name: invoice_surrogate_key
+        description: "Unique surrogate key generated from month, location, and movie."
+        tests:
+          - unique
+          - not_null
