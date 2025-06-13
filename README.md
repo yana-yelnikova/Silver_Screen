@@ -8,7 +8,7 @@ This project is an ELT pipeline built on dbt to analyze data from the 'Silver Sc
 * **Git & GitHub**: For version control.
 
 ## Data Sources
-This project uses 5 raw data sources provided by 'Silver Screen':
+This project is based on 5 raw data files (CSVs) provided by 'Silver Screen'. The source files are located in the `/seeds` directory of this repository and are loaded into the data warehouse using the `dbt seed` command.
 
 | Source Name       | Description                                                                 |
 |-------------------|-----------------------------------------------------------------------------|
@@ -28,7 +28,13 @@ This project uses a layered architecture to organize models, which is a dbt best
 
 ## How to Run the Project
 
-1.  **Build Models and Run Tests:**
+1.  **Load Seed Data:**
+    This command loads the raw data from the CSV files located in the `/seeds` directory into your data warehouse.
+    ```bash
+    dbt seed
+    ```
+
+2.  **Build Models and Run Tests:**
     To sequentially build all models and run all tests, use the command:
     ```bash
     dbt build
@@ -39,7 +45,7 @@ This project uses a layered architecture to organize models, which is a dbt best
     dbt test  # To run all data quality tests
     ```
 
-2.  **Generate and View Documentation:**
+3.  **Generate and View Documentation:**
     To generate the documentation site and view the dependency graph (DAG):
     ```bash
     dbt docs generate
