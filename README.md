@@ -67,6 +67,7 @@ Data from the sources was inconsistent and required several key transformations 
 * **Handling Unreliable Invoice Keys:** The `invoice_id` was non-unique, making simple joins impossible. The logic was rebuilt to aggregate costs based on a true business key (`month`, `location`, `movie_id`), ensuring accurate profit calculation.
 * **Robust Testing Strategy:** Implemented a combination of tests to guarantee data integrity:
     * **Generic Tests:** Used `not_null` and `unique` tests on primary keys across all models.
+    * **Relationship Tests:** Ensured referential integrity between models, for example, guaranteeing that no sales were recorded for movies that do not exist in the `movie_catalogue`.
     * **Custom Test:** Developed a singular test (`assert_int_monthly_sales_is_unique.sql`) to verify that the combination of `month`, `location`, and `movie_id` is unique in the final model, preventing incorrect aggregations.
 
 ## How to Run the Project
@@ -94,7 +95,10 @@ Data from the sources was inconsistent and required several key transformations 
     dbt docs generate
     dbt docs serve
     ```
-## Next Steps
+## Next Steps & Production Readiness
 
-The next logical step for this project is to productionize the pipeline. This involves setting up automated, scheduled runs of the dbt models using an orchestrator like **dbt Cloud**. This will ensure that the analytical data mart is updated regularly without manual intervention.
+This project is not just a one-off analysis; it's a fully automatable data pipeline ready for production.
 
+The next step is to move from manual execution to a scheduled, automated workflow. This can be achieved by configuring a **Job in dbt Cloud** (or another orchestrator like Airflow) to run the `dbt build` command on a set schedule (e.g., daily at 3 AM).
+
+This ensures that business stakeholders will always have access to fresh, reliable, and fully-validated data for their decisions, with zero manual intervention required.
