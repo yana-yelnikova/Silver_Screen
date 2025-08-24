@@ -47,6 +47,8 @@ This structure makes the pipeline easy to debug, test, and scale.
 
 The final output of this ELT pipeline is the `fct_monthly_movie_performance` table. This model serves as a single source of truth, joining cleaned movie details, unified sales data, and monthly rental costs.
 
+To optimize performance and query speed, this final model is materialized as a **table**. All preceding staging and intermediate models are materialized as **views** to ensure data is always fresh and to reduce storage costs.
+
 This mart is ready for direct connection to any BI tool (like Tableau, Power BI, or Looker) to build dashboards and analyze the profitability of each movie across all locations.
 
 **Example Rows:**
@@ -92,5 +94,7 @@ Data from the sources was inconsistent and required several key transformations 
     dbt docs generate
     dbt docs serve
     ```
+## Next Steps
 
+The next logical step for this project is to productionize the pipeline. This involves setting up automated, scheduled runs of the dbt models using an orchestrator like **dbt Cloud**. This will ensure that the analytical data mart is updated regularly without manual intervention.
 
