@@ -1,5 +1,8 @@
 # Silver Screen Cinema Efficiency Analysis (dbt Project)
 
+## 🎯 Business Problem
+Entertainment Company "Silver Screen" acquired a chain of three movie theaters in New Jersey and needs to analyze the efficiency of these locations. The key challenge is that data comes from disparate, poorly formatted sources, making it impossible to get a unified view of performance.
+
 This project is an ELT pipeline built on dbt to analyze data from the 'Silver Screen' cinema chain. The project's goal is to clean and unify data from various sources and create a single analytical data mart to assess the profitability of movies across different locations.
 
 ## Tech Stack
@@ -58,7 +61,12 @@ The data pipeline executes the following steps:
 2.  **Sales Unification:** Cleansed sales data is unified and aggregated by month in the `int_monthly_sales` model.
 3.  **Mart Creation:** The final model, `fct_monthly_movie_performance`, `JOIN`s aggregated sales, costs, and movie details, creating a single table for analysis.
 
-### Key Features & Fixes
-During development, the following data quality tasks were resolved:
-* **Unreliable Invoice Data:** The `invoice_id` was found to be non-unique. The logic was changed to aggregate costs by a true business key (`month`, `location`, `movie`) to ensure correct cost calculation.
-* **Custom Testing:** A custom SQL test was developed to verify the uniqueness of the column combination in the intermediate model, guaranteeing the correctness of the aggregation logic.
+## Data Quality & Key Challenges
+Data from the sources was inconsistent and required several key transformations and quality checks:
+
+* **Unifying Disparate Sources:** Developed logic to merge three different sales data structures (transactional `nj_001`/`nj_003` and aggregated `nj_002`) into a single, standardized format.
+* **Handling Unreliable Invoice Keys:** The `invoice_id` was non-unique, making simple joins impossible. The logic was rebuilt to aggregate costs based on a true business key (`month`, `location`, `movie_id`), ensuring accurate profit calculation.
+* **Robust Testing Strategy:** Implemented a combination of tests to guarantee data integrity:
+    * **Generic Tests:** Used `not_null` and `unique` tests on primary keys across all models.
+    * **Custom Test:** Developed a singular test (`assert_int_monthly_sales_is_unique.sql`) to verify that the combination of `month`, `location`, and `movie_id` is unique in the final model, preventing incorrect aggregations.
+
