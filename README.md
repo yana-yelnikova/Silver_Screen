@@ -37,6 +37,21 @@ This structure makes the pipeline easy to debug, test, and scale.
 
 ![Project Data Lineage](screenshots/Lineage%20of%20the%20project.png)
 
+## Final Output: The Analytical Data Mart
+
+The final output of this ELT pipeline is the `fct_monthly_movie_performance` table. This model serves as a single source of truth, joining cleaned movie details, unified sales data, and monthly rental costs.
+
+This mart is ready for direct connection to any BI tool (like Tableau, Power BI, or Looker) to build dashboards and analyze the profitability of each movie across all locations.
+
+**Example Rows:**
+
+| MOVIE_ID | MOVIE_TITLE | GENRE | STUDIO | MONTH | LOCATION | RENTAL_COST | TICKETS_SOLD | REVENUE |
+|:---|:---|:---|:---|:---|:---|---:|---:|---:|
+| mov_001 | Cosmic Explorers | Sci-Fi | Galaxy Studios | 2024-01-01 | nj_001 | 5000.00 | 1250 | 15000.00 |
+| mov_002 | Midnight Shadows | Thriller | Dark Horse Pictures| 2024-01-01 | nj_001 | 4500.00 | 1100 | 13200.00 |
+| mov_001 | Cosmic Explorers | Sci-Fi | Galaxy Studios | 2024-01-01 | nj_002 | 5200.00 | 1300 | 15600.00 |
+| mov_003 | The Last Laugh | Comedy | FunTime Films | 2024-02-01 | nj_003 | 3800.00 | 950 | 11400.00 |
+
 ## How to Run the Project
 
 1.  **Load Seed Data:**
