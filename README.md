@@ -29,6 +29,14 @@ This project uses a layered architecture to organize models, which is a dbt best
 * `models/marts`: The final data marts, ready for analysis and connection to BI tools. The key model is `fct_monthly_movie_performance`.
 * `tests/`: Custom (singular) tests to check for complex business rules not covered by standard generic tests.
 
+## Data Lineage (DAG)
+
+The project follows a layered architecture to ensure modularity and maintainability. The complete dependency graph (DAG) below visualizes the flow of data from the raw sources (`seeds`) on the left, through the staging and intermediate models, to the final analytical data mart on the right.
+
+This structure makes the pipeline easy to debug, test, and scale.
+
+![Project Data Lineage](screenshots/Lineage%20of%20the%20project.png)
+
 ## How to Run the Project
 
 1.  **Load Seed Data:**
